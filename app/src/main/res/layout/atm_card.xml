@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rounded_corners_card"
+    android:padding="25dp">
+
+    <TextView
+        android:id="@+id/title_atm_card"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Банкомат ВТБ"
+        android:textColor="@color/dark_vtb_blue"
+        android:fontFamily="@font/vtb_font_family"
+        android:textStyle="bold"
+        android:textSize="29sp"/>
+    <TextView
+        android:id="@+id/type_atm_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="банкомат"
+        app:layout_constraintTop_toBottomOf="@+id/title_atm_card"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/rating_atm_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/type_atm_card"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="**** 5.0"
+        android:textColor="@color/black"
+        android:fontFamily="@font/vtb_font_family"
+        />
+
+    <TextView
+        android:id="@+id/reviews_count_atm_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toRightOf="@+id/rating_atm_card"
+        app:layout_constraintTop_toBottomOf="@+id/type_atm_card"
+        android:text="1 отзывов"/>
+    <TextView
+        android:id="@+id/address_atm_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rating_atm_card"
+        android:text="ул. Богородский Вал, д. 6, корп. 1"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

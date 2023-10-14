@@ -1,10 +1,13 @@
 package ru.dynamical_lr.vtb_atm_app
 
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.chip.Chip
 import com.google.gson.GsonBuilder
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
@@ -32,6 +35,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mapObjectCollection: MapObjectCollection
     private lateinit var placemarkMapObject: PlacemarkMapObject
+    private lateinit var atmChip: Chip
+    private lateinit var officeChip: Chip
+    private var atmChipEnable = true
+    private lateinit var chipExpander: Chip
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     private lateinit var atms: List<AtmModel>
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,32 +50,123 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        bottomSheet = findViewById(R.id.bottom_sheet_layout);
+        bottomSheet = findViewById(R.id.bottom_sheet_layout)
 
-        BottomSheetBehavior.from(bottomSheet).apply {
-            peekHeight = 450
-            this.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+
+        bottomSheetBehavior.peekHeight = 450
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        chipExpander = findViewById(R.id.chipExpander)
+
+        atmChip = findViewById(R.id.atmChip)
+        atmChip.text = "банкоматы"
+        atmChip.chipBackgroundColor =
+            ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+        atmChip.setTextColor(getColorStateList(R.color.dark_vtb_blue))
+
+        atmChip.setOnClickListener {
+            if (!atmChipEnable) {
+                atmChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+                atmChip.setTextColor(getColorStateList(R.color.dark_vtb_blue))
+
+                officeChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_vtb_blue))
+                officeChip.setTextColor(getColorStateList(R.color.white))
+                atmChipEnable = true
+            } else {
+                atmChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_vtb_blue))
+                atmChip.setTextColor(getColorStateList(R.color.white))
+
+                officeChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+                officeChip.setTextColor(getColorStateList(R.color.dark_vtb_blue))
+                atmChipEnable = false
+            }
+            performRequest()
+        }
+        officeChip = findViewById(R.id.officeChip)
+        officeChip.text = "отделения"
+        officeChip.setOnClickListener {
+            if (!atmChipEnable) {
+                atmChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+                atmChip.setTextColor(getColorStateList(R.color.dark_vtb_blue))
+
+                officeChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_vtb_blue))
+                officeChip.setTextColor(getColorStateList(R.color.white))
+                atmChipEnable = true
+            } else {
+                atmChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_vtb_blue))
+                atmChip.setTextColor(getColorStateList(R.color.white))
+
+                officeChip.chipBackgroundColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+                officeChip.setTextColor(getColorStateList(R.color.dark_vtb_blue))
+                atmChipEnable = false
+            }
+            performRequest()
+        }
+        chipExpander.setOnClickListener {
+            when (bottomSheetBehavior.state) {
+                BottomSheetBehavior.STATE_COLLAPSED -> {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    chipExpander.chipBackgroundColor =
+                        ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+                    chipExpander.setTextColor(getColorStateList(R.color.dark_vtb_blue))
+                }
+
+                BottomSheetBehavior.STATE_EXPANDED -> {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    chipExpander.chipBackgroundColor =
+                        ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_vtb_blue))
+                    chipExpander.setTextColor(getColorStateList(R.color.white))
+                }
+            }
         }
 
         performRequest()
 
         mapView = findViewById(R.id.map_view)
         mapView.map.isNightModeEnabled = true;
-        mapView.map.move(CameraPosition(Point(55.751408, 37.621152), 11.0f, 0.0f, 0.0f), Animation(Animation.Type.SMOOTH, 1.5f ), null)
+        mapView.map.move(
+            CameraPosition(Point(55.751408, 37.621152), 11.0f, 0.0f, 0.0f),
+            Animation(Animation.Type.SMOOTH, 1.5f),
+            null
+        )
 
     }
 
     private fun renderAtms() {
-        val imageProvider: ImageProvider = ImageProvider.fromResource(this, R.drawable.marker_small);
+        val imageProvider: ImageProvider =
+            ImageProvider.fromResource(this, R.drawable.marker_small)
+        mapObjectCollection = mapView.map.mapObjects
+        mapObjectCollection.clear()
         for (atm in atms) {
-            mapObjectCollection = mapView.map.mapObjects
             placemarkMapObject = mapObjectCollection.addPlacemark().apply {
                 geometry = Point(atm.latitude, atm.longitude)
                 setIcon(imageProvider)
             }
-
         }
+    }
 
+    private fun chipSwitcher() {
+        if (!atmChipEnable) {
+            atmChip.chipBackgroundColor =
+                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+            atmChip.setTextColor(getColorStateList(R.color.dark_vtb_blue))
+            atmChipEnable = true
+        } else {
+
+            atmChip.chipBackgroundColor =
+                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_vtb_blue))
+            atmChip.setTextColor(getColorStateList(R.color.white))
+            atmChipEnable = false
+        }
     }
 
     override fun onStop() {
@@ -89,23 +188,43 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AtmAPI::class.java)
-
-        api.getAtms().enqueue(object: Callback<List<AtmModel>> {
-            override fun onResponse(
-                call: Call<List<AtmModel>>,
-                response: Response<List<AtmModel>>
-            ) {
-                if(response.isSuccessful) {
-                    response.body()?.let {
-                        atms = it
-                        renderAtms()
+        if (atmChipEnable) {
+            api.getAtms().enqueue(object : Callback<List<AtmModel>> {
+                override fun onResponse(
+                    call: Call<List<AtmModel>>,
+                    response: Response<List<AtmModel>>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            atms = it
+                            renderAtms()
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<List<AtmModel>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-        })
+                override fun onFailure(call: Call<List<AtmModel>>, t: Throwable) {
+                    Log.i("123", "Failed!")
+                }
+            })
+        } else {
+            api.getOffices().enqueue(object : Callback<List<AtmModel>> {
+                override fun onResponse(
+                    call: Call<List<AtmModel>>,
+                    response: Response<List<AtmModel>>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            atms = it
+                            renderAtms()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<AtmModel>>, t: Throwable) {
+                    Log.i("123", "Failed!")
+                }
+            })
+        }
+
     }
 }

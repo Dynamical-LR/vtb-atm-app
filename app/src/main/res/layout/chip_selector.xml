@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+<com.google.android.material.chip.Chip android:id="@+id/chip1"
+    style="@style/Widget.MaterialComponents.Chip.Filter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="пешком"
+    android:textColor="@color/dark_vtb_blue"
+    android:textSize="15dp"
+    app:chipBackgroundColor="@color/white"
+    android:fontFamily="@font/vtb_font_family"
+    app:chipEndPadding="25dp"
+    app:chipMinHeight="40dp"
+    app:chipStartPadding="25dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

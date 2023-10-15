@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/vtb_font_family"
             android:text="Фильтры по тегам"
             android:textColor="@color/white"
@@ -33,7 +34,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="5dp">
             <LinearLayout
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -73,9 +74,12 @@
             android:layout_height="wrap_content"
             app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
             android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/atm_card"/>
 
-                <include layout="@layout/atm_card" />
-                <include layout="@layout/atm_card" />
 
         </LinearLayout>
 

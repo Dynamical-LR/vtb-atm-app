@@ -6,28 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/material_card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/rounded_corners"
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:id="@+id/material_card_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:background="@drawable/rounded_corners"-->
 
-        app:cardBackgroundColor="@color/dark_mode_color"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--        app:cardBackgroundColor="@color/dark_mode_color"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <ImageView
-            android:id="@+id/vtb_logo_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            app:srcCompat="@drawable/vtb_logo" />
-    </com.google.android.material.card.MaterialCardView>
+<!--        <ImageView-->
+<!--            android:id="@+id/vtb_logo_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:paddingLeft="20dp"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingRight="20dp"-->
+<!--            android:paddingBottom="10dp"-->
+<!--            app:srcCompat="@drawable/vtb_logo" />-->
+<!--    </com.google.android.material.card.MaterialCardView>-->
 
 
     <com.yandex.mapkit.mapview.MapView
@@ -35,77 +35,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Фильтры по тегам"-->
-        <!--            android:fontFamily="@font/vtb_font_family"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            android:textSize="29sp"-->
-        <!--            android:textStyle="bold"-->
-        <!--            android:layout_marginBottom="25dp" />-->
-        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content">-->
-        <!--            <com.google.android.material.chip.ChipGroup-->
-        <!--                app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:id="@+id/chip_group"-->
-        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--                android:layout_width="wrap_content">-->
-
-
-        <!--                <com.google.android.material.chip.Chip-->
-        <!--                    android:id="@+id/chip1"-->
-        <!--                    style="@style/Widget.MaterialComponents.Chip.Filter"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="пешком"-->
-        <!--                    android:textSize="15dp"-->
-        <!--                    android:textColor="@color/dark_vtb_blue"-->
-        <!--                    app:chipStartPadding="25dp"-->
-        <!--                    app:chipEndPadding="25dp"-->
-        <!--                    app:chipMinHeight="40dp"-->
-        <!--                    app:chipBackgroundColor="@color/white" />-->
-
-        <!--                <com.google.android.material.chip.Chip-->
-        <!--                    android:id="@+id/chip2"-->
-
-        <!--                    style="@style/Widget.MaterialComponents.Chip.Filter"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="автобус"-->
-        <!--                    android:textColor="@color/white"-->
-        <!--                    app:chipStartPadding="25dp"-->
-        <!--                    app:chipEndPadding="25dp"-->
-        <!--                    app:chipMinHeight="40dp"-->
-        <!--                    app:chipBackgroundColor="@color/dark_vtb_blue"-->
-        <!--                    app:chipStrokeColor="@color/white"-->
-        <!--                    app:chipStrokeWidth="1dp"/>-->
-
-
-        <!--            </com.google.android.material.chip.ChipGroup>-->
-        <!--            <com.google.android.material.chip.Chip-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="..."-->
-        <!--                app:chipBackgroundColor="@color/dark_vtb_blue"-->
-        <!--                app:chipStartPadding="15dp"-->
-        <!--                app:chipEndPadding="15dp"-->
-        <!--                android:textStyle="bold"-->
-        <!--                app:chipMinHeight="40dp"-->
-        <!--                android:fontFamily="@font/vtb_font_family"-->
-        <!--                android:textColor="@color/white"-->
-        <!--                app:chipStrokeWidth="1dp"-->
-        <!--                app:chipStrokeColor="@color/white"-->
-        <!--                app:layout_constraintTop_toTopOf="parent"-->
-        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--                app:layout_constraintRight_toRightOf="parent"-->
-        <!--                />-->
-        <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 >

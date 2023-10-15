@@ -10,10 +10,10 @@ import ru.dynamical_lr.vtb_atm_app.models.RouteNode
 import ru.dynamical_lr.vtb_atm_app.requests.RouteRequest
 
 interface AtmAPI {
-    @GET("api/v1/atm?page=1&size=20")
+    @GET("api/v1/atm?page=1&size=10")
     fun getAtms(): Call<List<AtmModel>>
 
-    @GET("api/v1/office?page=1&size=20")
+    @GET("api/v1/office?page=1&size=10")
     fun getOffices(): Call<List<OfficeModel>>
 
     @POST("api/v1/route")

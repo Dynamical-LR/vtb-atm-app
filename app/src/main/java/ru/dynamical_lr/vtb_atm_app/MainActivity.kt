@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
 
-        bottomSheetBehavior.peekHeight = 425
+        bottomSheetBehavior.peekHeight = 500
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         chipExpander = findViewById(R.id.chipExpander)
@@ -157,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         mapView = findViewById(R.id.map_view)
         mapView.map.isNightModeEnabled = true;
         mapView.map.move(
-            CameraPosition(Point(55.751408, 37.621152), 11.0f, 0.0f, 0.0f),
+            CameraPosition(Point(55.744633, 37.56607), 11.0f, 0.0f, 0.0f),
             Animation(Animation.Type.SMOOTH, 1.5f),
             null
         )
@@ -220,6 +221,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderRoute() {
+        val imageProvider: ImageProvider =
+            ImageProvider.fromResource(this, R.drawable.marker_logo)
         mapObjectCollection = mapView.map.mapObjects
         for (routeNode in routeNodes) {
             val polyline = mapObjectCollection.addPolyline(
@@ -230,8 +233,12 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             )
-            polyline.setStrokeColor(Color.argb(255, 255, 0, 0))
+            polyline.setStrokeColor(Color.argb(255, 255, 255, 255))
             polyline.strokeWidth = 6.0f
+        }
+        placemarkMapObject = mapObjectCollection.addPlacemark().apply {
+            geometry = Point(routeNodes.last().toLatitude, routeNodes.last().toLongitude)
+            setIcon(imageProvider)
         }
     }
 
@@ -242,7 +249,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AtmAPI::class.java)
-        api.getRoute(RouteRequest(latitude =  55.7743705, longitude = 37.8428135))
+        api.getRoute(RouteRequest(55.744633, 37.56607))
             .enqueue(object : Callback<List<RouteNode>> {
                 override fun onResponse(
                     call: Call<List<RouteNode>>,
@@ -257,7 +264,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<List<RouteNode>>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val show = Toast.makeText(applicationContext, "Маршрут не найден!", Toast.LENGTH_LONG)
+                    show.show()
                 }
 
             })

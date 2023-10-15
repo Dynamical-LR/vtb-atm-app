@@ -2,6 +2,7 @@ package ru.dynamical_lr.vtb_atm_app
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,9 +16,11 @@ import com.google.gson.GsonBuilder
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.geometry.Polyline
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.MapObjectCollection
 import com.yandex.mapkit.map.PlacemarkMapObject
+import com.yandex.mapkit.map.PolylineMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import okhttp3.Request
@@ -31,7 +34,9 @@ import ru.dynamical_lr.vtb_atm_app.adapters.CardsAdapter
 import ru.dynamical_lr.vtb_atm_app.models.AtmModel
 import ru.dynamical_lr.vtb_atm_app.models.CardInfo
 import ru.dynamical_lr.vtb_atm_app.models.OfficeModel
+import ru.dynamical_lr.vtb_atm_app.models.RouteNode
 import ru.dynamical_lr.vtb_atm_app.network.api.AtmAPI
+import ru.dynamical_lr.vtb_atm_app.requests.RouteRequest
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var atms: List<AtmModel>
     private lateinit var offices: List<OfficeModel>
+    private lateinit var routeNodes: List<RouteNode>
 
     private lateinit var adapter: CardsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -156,6 +162,8 @@ class MainActivity : AppCompatActivity() {
             null
         )
 
+        mapObjectCollection = mapView.map.mapObjects
+        performRequestForRoute()
     }
 
     private fun renderAtms() {
@@ -209,6 +217,50 @@ class MainActivity : AppCompatActivity() {
         cardsList.addAll(cards)
         Log.i("1234", "${cardsList.size}")
         adapter.notifyDataSetChanged()
+    }
+
+    private fun renderRoute() {
+        mapObjectCollection = mapView.map.mapObjects
+        for (routeNode in routeNodes) {
+            val polyline = mapObjectCollection.addPolyline(
+                Polyline(
+                    listOf(
+                        Point(routeNode.fromLatitude, routeNode.fromLongitude),
+                        Point(routeNode.toLatitude, routeNode.toLongitude)
+                    )
+                )
+            )
+            polyline.setStrokeColor(Color.argb(255, 255, 0, 0))
+            polyline.strokeWidth = 6.0f
+        }
+    }
+
+    private fun performRequestForRoute() {
+        val url = "https://5c75-79-111-21-157.ngrok-free.app/";
+        val api = Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AtmAPI::class.java)
+        api.getRoute(RouteRequest(latitude =  55.7743705, longitude = 37.8428135))
+            .enqueue(object : Callback<List<RouteNode>> {
+                override fun onResponse(
+                    call: Call<List<RouteNode>>,
+                    response: Response<List<RouteNode>>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            routeNodes = it
+                            renderRoute()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<RouteNode>>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
     }
 
     private fun performRequest() {

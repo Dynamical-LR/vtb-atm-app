@@ -1,0 +1,9 @@
+FROM postgres:14.1
+
+RUN apt-get update && apt-get  install -y postgresql-14-postgis-3  postgresql-14-pgrouting wget  osmctools osm2pgrouting wget osm2pgsql
+
+WORKDIR /app
+RUN wget https://download.bbbike.org/osm/bbbike/Moscow/Moscow.osm.pbf
+RUN wget https://raw.githubusercontent.com/boundlessgeo/OSM/master/mapzen_osm2pgsql.style
+
+CMD ["/usr/local/bin/docker-entrypoint.sh","postgres"]
